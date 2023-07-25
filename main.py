@@ -1,6 +1,5 @@
-from mysql_connection import connection
+from dbsqlite_connection import connection
 
-myconnection = connection()
 TABLE_NAME = "ts_songs"
 
 # FETCH LIST OF SONGS IN DATABASE

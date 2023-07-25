@@ -1,22 +1,45 @@
 """This module adds songs from a file txt to a db"""
-from mysql_connection import connection
+from dbsqlite_connection import connection, cursor
+from functions import *
+
+TABLE_NAME1 = "TS_Songs"
+TABLE_NAME2 = "TS_Albuns"
 
 
-# Opens txt files with song list
-with open("teste_list.txt", "r") as songs_file:
-    song_list = songs_file.readlines()
+debut_list = openfile("album/debut.txt")
+fearless_list = openfile("album/fearless.txt")
+speak_now_list = openfile("album/speak_now.txt")
+red_list = openfile("album/red.txt")
+nineth89_list = openfile("album/1989.txt")
+reputation_list = openfile("album/reputation.txt")
+lover_list = openfile("album/lover.txt")
+folklore_list = openfile("album/folklore.txt")
+evermore_list = openfile("album/evermore.txt")
+midnights_list = openfile("album/midnights.txt")
 
-song_list_formatted = []
-for song in song_list:
-    song_list_formatted.append(song.strip().title())
+albuns = {
+    "debut": debut_list,
+    "fearless": fearless_list,
+    "speak_now": speak_now_list,
+    "red": red_list,
+    "1989": nineth89_list,
+    "reputation": reputation_list,
+    "lover": lover_list,
+    "folklore": folklore_list,
+    "evermore": evermore_list,
+    "midnights": midnights_list,
+}
 
-# MYSQL CONNECTION
-myconnection = connection()
+for album, album_list in albuns.items():
+    for song in album_list:  # ADD SONGS TO TABLE
+        data1 = (song, album.title())
+        sql1 = f"INSERT INTO {TABLE_NAME1} (name, album) VALUES (?,?)"
+        cursor.execute(sql1, data1)
+    data2 = (album.title(), len(album_list))
+    sql2 = f"INSERT INTO {TABLE_NAME2} (name, n_tracks) VALUES (?,?)"
+    cursor.execute(sql2, data2)  # ADD ALBUM TO TABLE
 
-# ADDS SONG NAME TO DB
-with myconnection:
-    with myconnection.cursor() as cursor:
-        for song in song_list_formatted:
-            sql = f"INSERT INTO ts_songs (name) VALUE ('{song}')"
-            cursor.execute(sql)
-            myconnection.commit()
+connection.commit()
+
+cursor.close()
+connection.close()
