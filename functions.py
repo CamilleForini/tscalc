@@ -9,3 +9,19 @@ def openfile(filename):
     for song in song_list:
         song_list_formatted.append(song.strip().title())
     return song_list_formatted
+
+
+def checkrank(rank, song, song_list, ranks_used):
+    """Checks the rank of a given song"""
+    while True:
+        if rank > len(song_list):
+            print(f"Rank out of range, expecting value between 1 and {len(song_list)}")
+            rank = int(input(f"Please enter a rank to rank this song {song} "))
+            continue
+        elif rank in ranks_used:
+            print("Rank already used")
+            rank = int(input(f"Please enter a rank to rank this song {song} "))
+            continue
+        else:
+            break
+    return True

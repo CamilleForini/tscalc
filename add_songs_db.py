@@ -1,9 +1,6 @@
 """This module adds songs from a file txt to a db"""
-from dbsqlite_connection import connection, cursor
+from dbsqlite_connection import *
 from functions import *
-
-TABLE_NAME1 = "TS_Songs"
-TABLE_NAME2 = "TS_Albuns"
 
 
 debut_list = openfile("album/debut.txt")
@@ -32,12 +29,12 @@ albuns = {
 
 for album, album_list in albuns.items():
     for song in album_list:  # ADD SONGS TO TABLE
-        data1 = (song, album.title())
-        sql1 = f"INSERT INTO {TABLE_NAME1} (name, album) VALUES (?,?)"
-        cursor.execute(sql1, data1)
-    data2 = (album.title(), len(album_list))
-    sql2 = f"INSERT INTO {TABLE_NAME2} (name, n_tracks) VALUES (?,?)"
-    cursor.execute(sql2, data2)  # ADD ALBUM TO TABLE
+        song_data = (song, album.title())
+        sql1 = f"INSERT INTO {SONG_TABLE} (name, album) VALUES (?,?)"
+        cursor.execute(sql1, song_data)
+    album_data = (album.title(), len(album_list))
+    sql2 = f"INSERT INTO {ALBUM_TABLE} (name, n_tracks) VALUES (?,?)"
+    cursor.execute(sql2, album_data)  # ADD ALBUM TO TABLE
 
 connection.commit()
 
