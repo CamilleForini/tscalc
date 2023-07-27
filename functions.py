@@ -35,5 +35,12 @@ def checkrank(rank, song, song_list, ranks_used):
     return rank_int
 
 
-def rank_int(rank):
-    """Validates"""
+def show_ranked_song(songs_ranked):
+    """Shows ranks songs in crescent order"""
+    ranked_songs_formatted = []
+
+    for rank, song in songs_ranked.items():
+        ranked_songs_formatted.append(f"{rank}º - {song}")
+
+    for song_ranked in sorted(ranked_songs_formatted):
+        print(song_ranked)
