@@ -1,4 +1,5 @@
 "Module with functions that are used internally"
+from classes import *
 
 
 def openfile(filename):
@@ -19,16 +20,16 @@ def checkrank(rank, song, song_list, ranks_used):
             rank_int = int(rank)
         else:
             print("Invalid rank, please enter only numbers")
-            rank = input(f"Please enter a rank to rank this song {song} ")
+            rank = input(f"Please enter a rank to rank this song {song.name} ")
             continue
 
         if rank_int > len(song_list):
             print(f"Rank out of range, expecting value between 1 and {len(song_list)}")
-            rank = input(f"Please enter a rank to rank this song {song} ")
+            rank = input(f"Please enter a rank to rank this song {song.name} ")
             continue
         elif rank_int in ranks_used:
             print("Rank already used")
-            rank = input(f"Please enter a rank to rank this song {song} ")
+            rank = input(f"Please enter a rank to rank this song {song.name} ")
             continue
         else:
             break
@@ -40,6 +41,7 @@ def show_ranked_song(songs_ranked):
     ranked_songs_formatted = []
 
     for rank, song in songs_ranked.items():
+        rank = str(rank).rjust(2, "0")
         ranked_songs_formatted.append(f"{rank}º - {song}")
 
     for song_ranked in sorted(ranked_songs_formatted):
