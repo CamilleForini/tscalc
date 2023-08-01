@@ -20,7 +20,7 @@ for row in cursor.fetchall():
     album = Album(name, n_tracks)  # CREATES AN ALBUM OBJECT
     albums_list_obj.append(album)
 
-
+# INPUT SONGS RANKS
 songs_ranked = []
 ranks_used = []
 for song in song_list_obj:
@@ -31,23 +31,22 @@ for song in song_list_obj:
     ranks_used.append(rank_checked)
     show_ranked_song(songs_ranked)
 
+# UPDATE ALBUM SOMA
 for album in albums_list_obj:
     for song in songs_ranked:
         if song.get_album() == album.get_name():
             album.update_soma(song.rank)
         else:
             continue
-
 show_ranked_albums(albums_list_obj)
 
-
-for song in songs_ranked:  # UPDATE SONGS RANKS
+# UPDATE SONGS RANKS IN DB
+for song in songs_ranked:
     data1 = (song.rank, song.name)
     sql_songs = f"UPDATE {SONG_TABLE} SET rank=(?) WHERE name=(?)"
     cursor.execute(sql_songs, data1)
-connection.commit()
 
-
+# UPDATE ALBUMS IN DB
 for album in albums_list_obj:
     data = (album.get_soma(), album.get_media())
     sql = f"UPDATE {ALBUM_TABLE} SET total = (?), avarage = (?) WHERE name='{album.get_name()}'"
@@ -55,6 +54,5 @@ for album in albums_list_obj:
 
 
 connection.commit()
-
 cursor.close()
 connection.close()
