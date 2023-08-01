@@ -1,3 +1,6 @@
+"""Module with class that are used internally"""
+
+
 class Album:
     def __init__(self, name, n_tracks):
         self.name = name
@@ -13,10 +16,10 @@ class Album:
 
     def get_media(self):
         self.media = self.soma / self.length
-        return self.media
+        return round(self.media, 0)
 
     def get_soma(self):
-        return round(self.soma, 2)
+        return self.soma
 
 
 class Song:
@@ -30,3 +33,9 @@ class Song:
 
     def get_name(self):
         return self.name
+
+    def get_album(self):
+        return self.album
+
+    def get_rank(self):
+        return self.rank

@@ -40,9 +40,17 @@ def show_ranked_song(songs_ranked):
     """Shows ranks songs in crescent order"""
     ranked_songs_formatted = []
 
-    for rank, song in songs_ranked.items():
-        rank = str(rank).rjust(2, "0")
-        ranked_songs_formatted.append(f"{rank}º - {song}")
-
+    for song in songs_ranked:
+        rank = str(song.get_rank()).rjust(3, "0")
+        ranked_songs_formatted.append(f"{rank}º - {song.name}")
     for song_ranked in sorted(ranked_songs_formatted):
         print(song_ranked)
+
+
+def show_ranked_albums(album_list):
+    album_list_formatted = []
+    for album in album_list:
+        media = str(album.get_media()).rjust(5, "0")
+        album_list_formatted.append(f"{media}º - {album.name}")
+    for album in sorted(album_list_formatted):
+        print(album)
