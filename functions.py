@@ -1,5 +1,6 @@
 "Module with functions that are used internally"
 from classes import *
+import os
 
 
 def openfile(filename):
@@ -36,21 +37,44 @@ def checkrank(rank, song, song_list, ranks_used):
     return rank_int
 
 
-def show_ranked_song(songs_ranked):
-    """Shows ranks songs in crescent order"""
+def format_song_list(song_list):
     ranked_songs_formatted = []
-
-    for song in songs_ranked:
+    for song in song_list:
         rank = str(song.get_rank()).rjust(3, "0")
         ranked_songs_formatted.append(f"{rank}º - {song.name}")
-    for song_ranked in sorted(ranked_songs_formatted):
-        print(song_ranked)
+    ranked_songs_formatted.sort()
+    return ranked_songs_formatted
 
 
-def show_ranked_albums(album_list):
+def format_album_list(album_list):
     album_list_formatted = []
     for album in album_list:
         media = str(album.get_media()).rjust(5, "0")
         album_list_formatted.append(f"{media}º - {album.name}")
-    for album in sorted(album_list_formatted):
+    album_list_formatted.sort()
+    return album_list_formatted
+
+
+def show_ranked_song(songs_ranked):
+    """Shows ranks songs in crescent order"""
+    for song in format_song_list(songs_ranked):
+        print(song)
+
+
+def show_ranked_albums(album_list):
+    for album in format_album_list(album_list):
         print(album)
+
+
+def show_results(album_list, songs_ranked):
+    os.system("cls")
+    linha = "".rjust(20, "-")
+    print("CALCULANDO RESULTADOS...")
+    print(linha)
+    print("  RANK DE MUSICAS:  ")
+    print(linha)
+    show_ranked_song(songs_ranked)
+    print(linha)
+    print("  RANK DOS ALBUMS:  ")
+    print(linha)
+    show_ranked_albums(album_list)

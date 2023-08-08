@@ -1,6 +1,7 @@
 from dbsqlite_connection import *
 from functions import *
 from classes import *
+import os
 
 
 song_list_obj = []  # LIST OF SONGS OBJECTS
@@ -38,7 +39,9 @@ for album in albums_list_obj:
             album.update_soma(song.rank)
         else:
             continue
-show_ranked_albums(albums_list_obj)
+
+# SHOW RESULTS
+show_results(albums_list_obj, songs_ranked)
 
 # UPDATE SONGS RANKS IN DB
 for song in songs_ranked:
@@ -52,6 +55,19 @@ for album in albums_list_obj:
     sql = f"UPDATE {ALBUM_TABLE} SET total = (?), avarage = (?) WHERE name='{album.get_name()}'"
     cursor.execute(sql, data)
 
+with open("result.txt", "w+") as result_file:
+    linha = "".rjust(35, "-")
+    result_file.write(linha + "\n")
+    result_file.write("RESULTADOS DO RANKING DAS MUSICAS \n")
+    result_file.write(linha + "\n")
+    for song in format_song_list(songs_ranked):
+        result_file.write(f"{song}\n")
+
+    result_file.write(linha + "\n")
+    result_file.write("RESULTADOS DO RANKING DOS ALBUMS \n")
+    result_file.write(linha + "\n")
+    for album in format_album_list(albums_list_obj):
+        result_file.write(f"{album}\n")
 
 connection.commit()
 cursor.close()
